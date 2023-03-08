@@ -1,0 +1,11 @@
+app-text {
+    position: relative;
+    top: 2rem;
+    left: 4rem;
+}
+
+app-detector {
+    position: absolute;
+    top: 0;
+    left: 0;
+}

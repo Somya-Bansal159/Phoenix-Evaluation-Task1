@@ -22,6 +22,7 @@ export class DetectorComponent {
   
   pointer = new THREE.Vector2(1,1);
   raycaster = new THREE.Raycaster();
+  text: string;
   
 
   @ViewChild('myCanvas', {static: true}) myCanvas: ElementRef<HTMLCanvasElement>;
@@ -33,18 +34,21 @@ export class DetectorComponent {
     // Load gltf
     this.loader = new GLTFLoader();
     this.loader.load( "../../assets/models/cms.gltf" ,  
-                      ( gltf ) => { this.scene.add ( gltf.scene ) ; } ,
+                      ( gltf ) => { 
+                        this.scene.add ( gltf.scene ) ; } ,
                       ( xhr ) => { console.log ( ( xhr.loaded / xhr.total * 100 ) + '% loaded' ) ; },
                       ( error ) => { console.error ( error ) ; }
                     );
-
+    
     // Light
     const light = new THREE.AmbientLight(0xffffff, 0.5);
     this.scene.add(light);
 
     // Camera
     this.camera = new THREE.PerspectiveCamera(45, this.sizes.width/this.sizes.height);
-    this.camera.position.z = 30;
+    this.camera.position.z = 20;
+    this.camera.position.x = 20;
+    this.camera.position.y = 12;
     this.scene.add(this.camera);
 
     window.addEventListener( 'click', (event) => {
@@ -56,7 +60,6 @@ export class DetectorComponent {
           this.outline([intersects[0].object]);
       else this.outline([])
     } );
-
   }
 
   ngAfterViewInit() {
@@ -78,8 +81,19 @@ export class DetectorComponent {
     loop();
   }
 
-  outline(selectedObjects) {
+  outline(selectedObjects: THREE.Object3D<THREE.Event>[]) {
+    // Text
+    if(selectedObjects.length > 0) {
+      if(selectedObjects[0]["name"] == "CSC3D_V1_1") {
+        this.text = "yellow part";
+      }
+      else if(selectedObjects[0]["name"] == "DTs3D_V1_1") {
+        this.text = "orange part";
+      }
+    }
+    else this.text = "";
 
+    // Outline
     const compose = new EffectComposer(this.renderer);
     const outlinePass = new OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), this.scene, this.camera, selectedObjects);
 
