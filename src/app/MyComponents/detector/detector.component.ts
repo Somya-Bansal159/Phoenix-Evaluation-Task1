@@ -53,7 +53,8 @@ export class DetectorComponent {
       this.raycaster.setFromCamera( this.pointer, this.camera );
       const intersects = this.raycaster.intersectObjects( this.scene.children );
       if(intersects.length > 0)
-          this.outline(intersects[0]);
+          this.outline([intersects[0].object]);
+      else this.outline([])
     } );
 
   }
@@ -77,8 +78,7 @@ export class DetectorComponent {
     loop();
   }
 
-  outline(intersect) {
-    const selectedObjects = [intersect.object];
+  outline(selectedObjects) {
 
     const compose = new EffectComposer(this.renderer);
     const outlinePass = new OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), this.scene, this.camera, selectedObjects);
