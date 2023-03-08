@@ -6,7 +6,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## What do the different parts do?
+## What do the different parts of the detector do?
 
 The detector in the GLTF file contains muon chambers and steel return yoke. Muons can penetrate the matter upto several metres, so muon detectors are placed at the outer edge.
 CMS has three types of muon detectors:
